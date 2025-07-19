@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ViralHub - The Ultimate Fun Experience</title>
+    <style>
+        :root {
+            --primary: #6c5ce7;
+            --secondary: #fd79a8;
+            --dark: #2d3436;
+            --light: #f5f6fa;
+            --retro-bg: #000;
+            --retro-text: #0f0;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Courier New', monospace;
+        }
+        
+        body {
+            background-color: var(--dark);
+            color: var(--light);
+            line-height: 1.6;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+            border-bottom: 4px solid var(--light);
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .tab-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        
+        .tab {
+            padding: 0.8rem 1.5rem;
+            background: var(--dark);
+            color: var(--light);
+            cursor: pointer;
+            border: 2px solid var(--primary);
+            border-radius: 0;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        
+        .tab:hover {
+            background: var(--primary);
+        }
+        
+        .tab.active {
+            background: var(--primary);
+            border-color: var(--secondary);
+        }
+        
+        .tab-content {
+            display: none;
+            padding: 2rem;
+            background: rgba(0,0,0,0.7);
+            border: 2px solid var(--secondary);
+            border-radius: 0;
+        }
+        
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        h1, h2, h3 {
+            margin-bottom: 1rem;
+            color: var(--secondary);
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            text-shadow: 3px 3px 0 var(--dark);
+        }
+        
+        h2 {
+            font-size: 1.8rem;
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 0.5rem;
+        }
+        
+        .btn {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 0;
+            cursor: pointer;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s;
+            margin-top: 1rem;
+            font-family: 'Courier New', monospace;
+            font-size: 1rem;
+            border: 2px solid var(--secondary);
+        }
+        
+        .btn:hover {
+            background: var(--secondary);
+            transform: translateY(-2px);
+        }
+        
+        .wordle-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 5px;
+            margin: 2rem 0;
+            max-width: 300px;
+        }
+        
+        .wordle-cell {
+            width: 100%;
+            aspect-ratio: 1/1;
+            border: 2px solid var(--light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        
+        .wordle-cell.correct {
+            background: #2ecc71;
+            border-color: #2ecc71;
+        }
+        
+        .wordle-cell.present {
+            background: #f1c40f;
+            border-color: #f1c40f;
+        }
+        
+        .wordle-cell.absent {
+            background: #7f8c8d;
+            border-color: #7f8c8d;
+        }
+        
+        #wordle-input {
+            padding: 0.8rem;
+            background: var(--dark);
+            color: white;
+            border: 2px solid var(--primary);
+            font-family: 'Courier New', monospace;
+            font-size: 1rem;
+            width: 200px;
+            text-transform: uppercase;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 2rem;
+            background: var(--dark);
+            color: var(--light);
+            border-top: 2px solid var(--primary);
+            margin-top: 2rem;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .tab {
+                padding: 0.6rem 1rem;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>ViralHub</h1>
+        <p>The ultimate collection of viral experiences</p>
+    </header>
+    
+    <div class="container">
+        <div class="tab-container">
+            <div class="tab active" onclick="openTab('wordle')">Daily Wordle</div>
+            <div class="tab" onclick="openTab('quizzes')">Quizzes</div>
+            <div class="tab" onclick="openTab('memes')">Meme Generator</div>
+            <div class="tab" onclick="openTab('ratings')">Rate My...</div>
+            <div class="tab" onclick="openTab('nostalgia')">Nostalgia Zone</div>
+            <div class="tab" onclick="openTab('names')">Name Generators</div>
+        </div>
+        
+        <!-- Daily Wordle Section -->
+        <div id="wordle" class="tab-content active">
+            <h2>Daily Viral Wordle</h2>
+            <p>Guess today's viral word in 6 tries!</p>
+            
+            <div class="wordle-grid" id="wordle-grid">
+                <!-- Filled by JavaScript -->
+            </div>
+            
+            <div>
+                <input type="text" id="wordle-input" maxlength="5" placeholder="ENTER 5-LETTER WORD">
+                <button class="btn" onclick="submitWordleGuess()">Submit</button>
+            </div>
+            
+            <div id="wordle-result" style="margin-top: 1rem; display: none;">
+                <h3 id="wordle-result-text"></h3>
+                <p id="wordle-result-desc"></p>
+                <button class="btn" onclick="shareResult('wordle')">Share Your Score</button>
+            </div>
+        </div>
+        
+        <!-- Quizzes Section -->
+        <div id="quizzes" class="tab-content">
+            <h2>Viral Personality Quiz</h2>
+            <p>Discover which viral creator you are!</p>
+            
+            <div id="quiz-container" style="margin-top: 1rem;">
+                <div id="quiz-question-1" class="quiz-question">
+                    <h3>How do you react to trending topics?</h3>
+                    <button class="btn" style="display: block; width: 100%; text-align: left; margin: 0.5rem 0;" onclick="selectAnswer(1, 'a')">A) Immediately create content</button>
+                    <button class="btn" style="display: block; width: 100%; text-align: left; margin: 0.5rem 0;" onclick="selectAnswer(1, 'b')">B) Wait to see if it's really trending</button>
+                    <button class="btn" style="display: block; width: 100%; text-align: left; margin: 0.5rem 0;" onclick="selectAnswer(1, 'c')">C) Ignore trends and do your own thing</button>
+                </div>
+                
+                <div id="quiz-question-2" class="quiz-question" style="display:none;">
+                    <h3>What's your favorite content format?</h3>
+                    <button class="btn" style="display: block; width: 100%; text-align: left; margin: 0.5rem 0;" onclick="selectAnswer(2, 'a')">A) Short videos (TikTok/Reels)</button>
+                    <button class="btn" style="display: block; width: 100%; text-align: left; margin: 0.5rem 0;" onclick="selectAnswer(2, 'b')">B) Images with text (Memes)</button>
+                    <button class="btn" style="display: block; width: 100%; text-align: left; margin: 0.5rem 0;" onclick="selectAnswer(2, 'c')">C) Long-form content</button>
+                </div>
+                
+                <div id="quiz-result" style="margin-top: 1rem; display: none;">
+                    <h3>Your Result: <span id="quiz-result-text"></span></h3>
+                    <p id="quiz-result-desc"></p>
+                    <button class="btn" onclick="shareResult('quiz')">Share Your Result</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Meme Generator Section -->
+        <div id="memes" class="tab-content">
+            <h2>Viral Meme Generator</h2>
+            <p>Create your next viral meme!</p>
+            
+            <div style="margin-top: 1rem;">
+                <select id="meme-template" style="padding: 0.8rem; background: var(--dark); color: white; border: 2px solid var(--primary);">
+                    <option value="drake">Drake Hotline Bling</option>
+                    <option value="distracted">Distracted Boyfriend</option>
+                    <option value="change">Change My Mind</option>
+                </select>
+            </div>
+            
+            <div style="margin: 1rem 0;">
+                <input type="text" id="top-text" placeholder="Top text" style="padding: 0.8rem; width: 100%; background: var(--dark); color: white; border: 2px solid var(--primary);">
+                <input type="text" id="bottom-text" placeholder="Bottom text" style="padding: 0.8rem; width: 100%; margin-top: 0.5rem; background: var(--dark); color: white; border: 2px solid var(--primary);">
+            </div>
+            
+            <button class="btn" onclick="generateMeme()">Generate Meme</button>
+            <button class="btn" onclick="shareMeme()" style="margin-left: 0.5rem;">Share Meme</button>
+            
+            <div id="meme-preview" style="margin-top: 1rem; text-align: center;"></div>
+        </div>
+        
+        <!-- Rate My... Section -->
+        <div id="ratings" class="tab-content">
+            <h2>Rate My Pet</h2>
+            <p>Upload your pet's photo and get ratings!</p>
+            
+            <div style="margin-top: 1rem;">
+                <input type="file" id="pet-upload" accept="image/*" style="display: none;">
+                <button class="btn" onclick="document.getElementById('pet-upload').click()">Upload Pet Photo</button>
+            </div>
+            
+            <div id="pet-preview" style="margin: 1rem 0; display: none;">
+                <img id="pet-image" src="" alt="Your pet" style="max-width: 100%; max-height: 300px; border: 2px solid var(--primary);">
+            </div>
+            
+            <div id="rating-buttons" style="display: none;">
+                <h3>Rate this pet:</h3>
+                <div style="display: flex; gap: 0.5rem; margin: 1rem 0;">
+                    <button class="btn" onclick="ratePet(1)">1 ★</button>
+                    <button class="btn" onclick="ratePet(2)">2 ★</button>
+                    <button class="btn" onclick="ratePet(3)">3 ★</button>
+                    <button class="btn" onclick="ratePet(4)">4 ★</button>
+                    <button class="btn" onclick="ratePet(5)">5 ★</button>
+                </div>
+            </div>
+            
+            <div id="rating-result" style="margin-top: 1rem; display: none;">
+                <h3>Average Rating: <span id="average-rating">0</span> ★</h3>
+                <p id="rating-comment"></p>
+                <button class="btn" onclick="shareResult('rating')">Share This Rating</button>
+            </div>
+        </div>
+        
+        <!-- Nostalgia Zone Section -->
+        <div id="nostalgia" class="tab-content">
+            <h2>90s Internet Simulator</h2>
+            <p>Relive the glory days of the early internet!</p>
+            
+            <div style="margin-top: 1rem; background: black; color: lime; padding: 1rem; border: 2px solid lime;">
+                <pre>
+  _______   ______    _____
+ |       | |    _ |  |      
+ |    ___| |   | ||  |    _
+ |   |______/_______/__//
+  |_____  |
+ |         ||   |  ___
+ |___|     |___|  |_
+                </pre>
+                
+                <p>> Welcome to ViralHub 1.0</p>
+                <p>> Loading...</p>
+                <p>> Choose an option:</p>
+                <p>> 1. Play Snake Game</p>
+                <p>> 2. View Geocities-style Page</p>
+                <p>> 3. Chat Room (Coming Soon)</p>
+                
+                <div style="margin-top: 1rem;">
+                    <input type="text" id="retro-input" placeholder="Enter option number" style="background: black; color: lime; border: 1px solid lime; padding: 0.5rem; font-family: 'Courier New', monospace; width: 200px;">
+                    <button class="btn" style="background: lime; color: black; margin-left: 0.5rem;" onclick="runRetroCommand()">Execute</button>
+                </div>
+                
+                <p style="margin-top: 1rem;">> Press ESC to exit</p>
+            </div>
+            
+            <div id="snake-game" style="display: none; margin-top: 1rem; text-align: center;">
+                <canvas id="snake-canvas" width="400" height="400" style="border: 2px solid lime;"></canvas>
+                <p style="color: lime; margin-top: 0.5rem;">Use arrow keys to play. Press ESC to exit.</p>
+            </div>
+        </div>
+        
+        <!-- Name Generators Section -->
+        <div id="names" class="tab-content">
+            <h2>Viral Name Generator</h2>
+            <p>Discover your viral alter ego!</p>
+            
+            <div style="margin-top: 1rem;">
+                <input type="text" id="name-input" placeholder="Your name" style="padding: 0.8rem; width: 100%; background: var(--dark); color: white; border: 2px solid var(--primary);">
+            </div>
+            
+            <div style="margin-top: 1rem;">
+                <select id="name-type" style="padding: 0.8rem; width: 100%; background: var(--dark); color: white; border: 2px solid var(--primary);">
+                    <option value="pirate">Pirate Name</option>
+                    <option value="wizard">Wizard Name</option>
+                    <option value="influencer">Influencer Name</option>
+                    <option value="startup">Startup Name</option>
+                </select>
+            </div>
+            
+            <button class="btn" onclick="generateName()">Generate My Name</button>
+            
+            <div id="name-result" style="margin-top: 1rem; display: none;">
+                <h3>Your Viral Name:</h3>
+                <p id="generated-name" style="font-size: 1.5rem; font-weight: bold; margin: 1rem 0; color: var(--secondary);"></p>
+                <button class="btn" onclick="shareResult('name')">Share This Name</button>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>© 2023 ViralHub - All rights reserved</p>
+        <p>Made with ❤️ for the internet</p>
+    </footer>
+
+    <script>
+        // Tab functionality
+        function openTab(tabId) {
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Deactivate all tabs
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Activate selected tab
+            document.getElementById(tabId).classList.add('active');
+            event.currentTarget.classList.add('active');
+        }
+        
+        // Wordle functionality
+        const wordleWords = ['VIRAL', 'TREND', 'MEMES', 'CLICK', 'SHARE', 'LIKE', 'VIEWS', 'BUZZ'];
+        let currentWordleWord = wordleWords[Math.floor(Math.random() * wordleWords.length)];
+        let wordleGuesses = [];
+        
+        function initWordleGrid() {
+            const grid = document.getElementById('wordle-grid');
+            grid.innerHTML = '';
+            
+            for (let i = 0; i < 6; i++) {
+                for (let j = 0; j < 5; j++) {
+                    const cell = document.createElement('div');
+                    cell.className = 'wordle-cell';
+                    cell.id = `wordle-cell-${i}-${j}`;
+                    grid.appendChild(cell);
+                }
+            }
+        }
+        
+        function submitWordleGuess() {
+            const guess = document.getElementById('wordle-input').value.toUpperCase();
+            if (guess.length !== 5) {
+                alert("Please enter a 5-letter word");
+                return;
+            }
+            
+            wordleGuesses.push(guess);
+            updateWordleGrid();
+            
+            if (guess === currentWordleWord) {
+                document.getElementById('wordle-result-text').textContent = "Congratulations! You guessed it!";
+                document.getElementById('wordle-result-desc').textContent = `You solved it in ${wordleGuesses.length} tries!`;
+                document.getElementById('wordle-result').style.display = 'block';
+                document.getElementById('wordle-input').disabled = true;
+            } else if (wordleGuesses.length >= 6) {
+                document.getElementById('wordle-result-text').textContent = "Game Over!";
+                document.getElementById('wordle-result-desc').textContent = `The word was ${currentWordleWord}. Better luck next time!`;
+                document.getElementById('wordle-result').style.display = 'block';
+                document.getElementById('wordle-input').disabled = true;
+            }
+            
+            document.getElementById('wordle-input').value = '';
+        }
+        
+        function updateWordleGrid() {
+            for (let i = 0; i < wordleGuesses.length; i++) {
+                const guess = wordleGuesses[i];
+                
+                for (let j = 0; j < 5; j++) {
+                    const cell = document.getElementById(`wordle-cell-${i}-${j}`);
+                    cell.textContent = guess[j];
+                    
+                    if (guess[j] === currentWordleWord[j]) {
+                        cell.classList.add('correct');
+                    } else if (currentWordleWord.includes(guess[j])) {
+                        cell.classList.add('present');
+                    } else {
+                        cell.classList.add('absent');
+                    }
+                }
+            }
+        }
+        
+        // Quiz functionality
+        let quizAnswers = {};
+        
+        function selectAnswer(question, answer) {
+            quizAnswers[question] = answer;
+            
+            // Show next question or result
+            if (question < 2) {
+                document.getElementById(`quiz-question-${question}`).style.display = 'none';
+                document.getElementById(`quiz-question-${question + 1}`).style.display = 'block';
+            } else {
+                showQuizResult();
+            }
+        }
+        
+        function showQuizResult() {
+            document.getElementById('quiz-question-2').style.display = 'none';
+            const resultBox = document.getElementById('quiz-result');
+            resultBox.style.display = 'block';
+            
+            // Simple result logic
+            const aCount = Object.values(quizAnswers).filter(a => a === 'a').length;
+            const bCount = Object.values(quizAnswers).filter(a => a === 'b').length;
+            const cCount = Object.values(quizAnswers).filter(a => a === 'c').length;
+            
+            let result = "";
+            let desc = "";
+            
+            if (aCount >= 2) {
+                result = "Trend Hopper";
+                desc = "You're always on top of the latest trends and know exactly how to ride the viral wave!";
+            } else if (bCount >= 2) {
+                result = "Strategic Creator";
+                desc = "You carefully select which trends to engage with, creating quality over quantity.";
+            } else {
+                result = "Original Thinker";
+                desc = "You don't follow trends - you set them! Your unique perspective is your strength.";
+            }
+            
+            document.getElementById('quiz-result-text').textContent = result;
+            document.getElementById('quiz-result-desc').textContent = desc;
+        }
+        
+        // Meme Generator functionality
+        function generateMeme() {
+            const template = document.getElementById('meme-template').value;
+            const topText = document.getElementById('top-text').value || "TOP TEXT";
+            const bottomText = document.getElementById('bottom-text').value || "BOTTOM TEXT";
+            
+            // In a real implementation, this would generate an actual meme image
+            // For this demo, we'll just show a text representation
+            const memePreview = document.getElementById('meme-preview');
+            memePreview.innerHTML = `
+                <div style="border: 2px solid var(--primary); padding: 1rem; background: var(--dark);">
+                    <h3 style="color: white; text-align: center;">${topText}</h3>
+                    <p style="text-align: center; color: #aaa;">[${template} meme image]</p>
+                    <h3 style="color: white; text-align: center;">${bottomText}</h3>
+                </div>
+                <p style="margin-top: 0.5rem; color: var(--secondary);">Meme generated! Click "Share Meme" to share it.</p>
+            `;
+        }
+        
+        function shareMeme() {
+            const topText = document.getElementById('top-text').value || "Top Text";
+            const bottomText = document.getElementById('bottom-text').value || "Bottom Text";
+            const shareText = `Check out my meme: "${topText} ... ${bottomText}"`;
+            
+            if (navigator.share) {
+                navigator.share({
+                    title: 'My Viral Meme',
+                    text: shareText,
+                    url: window.location.href
+                }).catch(err => {
+                    console.log('Error sharing:', err);
+                    copyToClipboard(shareText);
+                });
+            } else {
+                copyToClipboard(shareText);
+            }
+        }
+        
+        // Pet Rating functionality
+        document.getElementById('pet-upload').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    document.getElementById('pet-image').src = event.target.result;
+                    document.getElementById('pet-preview').style.display = 'block';
+                    document.getElementById('rating-buttons').style.display = 'block';
+                    document.getElementById('rating-result').style.display = 'none';
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+        
+        let petRatings = [];
+        
+        function ratePet(rating) {
+            petRatings.push(rating);
+            const average = (petRatings.reduce((a, b) => a + b, 0) / petRatings.length).toFixed(1);
+            
+            document.getElementById('average-rating').textContent = average;
+            
+            let comment = "";
+            if (average >= 4.5) {
+                comment = "This pet is absolutely perfect! Internet gold!";
+            } else if (average >= 3.5) {
+                comment = "A very good pet indeed. Would pet again!";
+            } else if (average >= 2.5) {
+                comment = "A decent pet. Has room for improvement.";
+            } else {
+                comment = "This pet is... unique. Not for everyone.";
+            }
+            
+            document.getElementById('rating-comment').textContent = comment;
+            document.getElementById('rating-result').style.display = 'block';
+        }
+        
+        // Retro functionality
+        function runRetroCommand() {
+            const command = document.getElementById('retro-input').value;
+            document.getElementById('retro-input').value = '';
+            
+            if (command === '1') {
+                document.getElementById('snake-game').style.display = 'block';
+                initSnakeGame();
+            } else if (command === '2') {
+                alert("Loading Geocities-style page...");
+            } else {
+                alert("Unknown command. Try 1, 2, or 3.");
+            }
+        }
+        
+        function initSnakeGame() {
+            const canvas = document.getElementById('snake-canvas');
+            const ctx = canvas.getContext('2d');
+            
+            // Snake game implementation would go here
+            ctx.fillStyle = 'lime';
+            ctx.font = '20px Courier New';
+            ctx.fillText('Snake Game Placeholder', 50, 200);
+            ctx.fillText('Press ESC to exit', 100, 230);
+            
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    document.getElementById('snake-game').style.display = 'none';
+                }
+            });
+        }
+        
+        // Name Generator functionality
+        const nameGenerators = {
+            pirate: {
+                prefixes: ['Red', 'Black', 'Old', 'Mad', 'One-Eyed', 'Dread'],
+                suffixes: ['beard', 'tooth', 'hook', 'boot', 'rum', 'skull']
+            },
+            wizard: {
+                prefixes: ['Merlin', 'Gandalf', 'Dumbledore', 'Saruman', 'Morgana', 'Circe'],
+                suffixes: ['the Wise', 'the Magnificent', 'the Enchanter', 'the Mystic', 'the Arcane']
+            },
+            influencer: {
+                prefixes: ['Trendy', 'Viral', 'Insta', 'Snap', 'TikTok', 'Famous'],
+                suffixes: ['King', 'Queen', 'Guru', 'Master', 'Expert', 'Pro']
+            },
+            startup: {
+                prefixes: ['Cloud', 'AI', 'Blockchain', 'Quantum', 'Virtual', 'Smart'],
+                suffixes: ['Tech', 'Labs', 'Solutions', 'Systems', 'Innovations', 'Ventures']
+            }
+        };
+        
+        function generateName() {
+            const name = document.getElementById('name-input').value || "Anonymous";
+            const type = document.getElementById('name-type').value;
+            const generator = nameGenerators[type];
+            
+            const randomPrefix = generator.prefixes[Math.floor(Math.random() * generator.prefixes.length)];
+            const randomSuffix = generator.suffixes[Math.floor(Math.random() * generator.suffixes.length)];
+            
+            let generated = "";
+            
+            if (type === 'pirate') {
+                generated = `${randomPrefix} ${name.split(' ')[0]} ${randomSuffix}`;
+            } else if (type === 'wizard') {
+                generated = `${randomPrefix} ${randomSuffix}`;
+            } else if (type === 'influencer') {
+                generated = `@${randomPrefix}${randomSuffix}`;
+            } else {
+                generated = `${randomPrefix} ${randomSuffix}`;
+            }
+            
+            document.getElementById('generated-name').textContent = generated;
+            document.getElementById('name-result').style.display = 'block';
+        }
+        
+        // Shared functions
+        function shareResult(type) {
+            let shareText = "";
+            
+            if (type === 'quiz') {
+                const result = document.getElementById('quiz-result-text').textContent;
+                shareText = `I took the Viral Creator quiz and got "${result}"! Take the quiz here: ${window.location.href}`;
+            } else if (type === 'rating') {
+                const rating = document.getElementById('average-rating').textContent;
+                shareText = `My pet got an average rating of ${rating} stars! Rate your pet here: ${window.location.href}`;
+            } else if (type === 'name') {
+                const name = document.getElementById('generated-name').textContent;
+                shareText = `My new viral name is "${name}"! Generate yours here: ${window.location.href}`;
+            } else if (type === 'wordle') {
+                const resultText = document.getElementById('wordle-result-text').textContent;
+                const resultDesc = document.getElementById('wordle-result-desc').textContent;
+                shareText = `${resultText} ${resultDesc} Play the daily Viral Wordle here: ${window.location.href}`;
+            }
+            
+            if (navigator.share) {
+                navigator.share({
+                    title: 'My ViralHub Result',
+                    text: shareText,
+                    url: window.location.href
+                }).catch(err => {
+                    console.log('Error sharing:', err);
+                    copyToClipboard(shareText);
+                });
+            } else {
+                copyToClipboard(shareText);
+            }
+        }
+        
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                alert("Copied to clipboard! Paste it to share.");
+            }).catch(err => {
+                console.error('Could not copy text: ', err);
+                prompt("Copy this to share:", text);
+            });
+        }
+        
+        // Initialize components
+        initWordleGrid();
+    </script>
+</body>
+</html>
